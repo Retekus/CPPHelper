@@ -39,10 +39,10 @@ int main() //main function starts the program, if program done returns 0
 
     switch(Boolean /*variable equal to case*/)
     {
-    case true: /*do smth*/
-    case false: /*do smth else*/
+    case true: /*do smth*/;
+    case false: /*do smth else*/;
 
-    default: /*defauld instructions*/
+    default: /*defauld instructions*/;
     }
 
 //***LOOPS***//
@@ -57,9 +57,9 @@ int main() //main function starts the program, if program done returns 0
 
 //***POINTERS***//
 
-    int* Pointer; //create pointer to memory cell with int variable inside
+    int* Pointer = 0; //create pointer to memory cell with int variable inside (0 == nowhere)
 
-    int* Pointer = &Integer; //& - get variable adress operator
+    int* Pointer2 = &Integer; //& - get variable adress operator
 
     Integer = *Pointer; //get value inside Pointer pointing adress
 
@@ -73,7 +73,7 @@ int main() //main function starts the program, if program done returns 0
 
     int* DynArr = new int[Integer]; //create dynamic array, allocated in heap
 
-    int cols, rows; //cols and rows in 2d arrays
+    int cols = 1, rows = 1; //cols and rows in 2d arrays
 
     int** DynArr2D = new int* [rows]; //create dynamic array, (memory fragmentation risc!) 
     for (size_t i = 0; i < rows; i++)
