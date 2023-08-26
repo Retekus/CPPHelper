@@ -16,6 +16,11 @@ bool Boolean;
 //***MACROS***//
 
 #include <iostream> //add standart library (InputOutputSTREAM)
+#include <vector> //standart dynamical array library
+#include <cstdlib> //standart C library
+#include <string> //standart C++ st0ing library
+#include <set> //standart SET library
+
 #include "CPPHelper.h" //add ur own .cpp/.h/... files
 
 //***MAIN***//
@@ -64,7 +69,20 @@ int main() //main function starts the program, if program done returns 0
     //FixedArr is a pointer to first value in array
     //FixedArr[4] is equal to *(FixedArr + 4)
 
+    std::vector<int> Vector; //create vector - dynamical array
 
+    int* DynArr = new int[Integer]; //create dynamic array, allocated in heap
+
+    int cols, rows; //cols and rows in 2d arrays
+
+    int** DynArr2D = new int* [rows]; //create dynamic array, (memory fragmentation risc!) 
+    for (size_t i = 0; i < rows; i++)
+        DynArr2D[i] = new int[cols];
+
+    int** DynArr2DEff = new int* [rows]; //create dynamic array. Efficient memory allocation
+    DynArr2DEff[0] = new int[rows * cols];
+    for (size_t i = 0; i < rows; i++)
+        DynArr2DEff[i] = DynArr2DEff[i - 1] + cols;
 
 }
 
