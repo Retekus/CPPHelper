@@ -1,6 +1,6 @@
 ﻿// CPP HELPER BY RETEKUS //
 
-//***DATA TYPES***//
+//***BASIC DATA TYPES***//
 
 char Character;
 
@@ -15,13 +15,19 @@ bool Boolean;
 
 //***MACROS***//
 
-#include <iostream> //add standart library
+#include <iostream> //add standart library (InputOutputSTREAM)
 #include "CPPHelper.h" //add ur own .cpp/.h/... files
+
+//***MAIN***//
+
+int main() //main function starts the program, if program done returns 0
+{
+//***STANDART C++ STYLE CONSOLE IO***//
+
+    std::cin >> Character >> Integer;
 
 //***LOGIC BRANCHES***//
 
-void Branches()
-{
     if (bool IsTrue = true) {/* do smth */ }
 
     bool Variable = (/*condition*/ 2 + 2 == 4) ? true : false; //ternary operator
@@ -33,12 +39,9 @@ void Branches()
 
     default: /*defauld instructions*/
     }
-}
 
 //***LOOPS***//
 
-void Loops()
-{
     for (size_t i = 0; i < Integer; i++) {/*do smth "Integer" times*/ }
 
     for(auto Variable : Arr) {/*Variable == Arr[Item from 1st to last]*/ }
@@ -46,12 +49,22 @@ void Loops()
     while(Boolean){/*do smth while Boolean == true*/ }
 
     do {/*do smth once than check Boolean, if true - continue loop*/ } while (Boolean);
-}
 
-//**POINTERS**//
+//***POINTERS***//
 
-int main()
-{
-    std::cout << "Hello World!\n";
+    int* Pointer; //create pointer to memory cell with int variable inside
+
+    int* Pointer = &Integer; //& - get variable adress operator
+
+    Integer = *Pointer; //get value inside Pointer pointing adress
+
+//***ARRAYS***//
+
+    int FixedArr[5] = {}; //create fixed 5 values array, with standart definition from 0 to 4
+    //FixedArr is a pointer to first value in array
+    //FixedArr[4] is equal to *(FixedArr + 4)
+
+
+
 }
 
