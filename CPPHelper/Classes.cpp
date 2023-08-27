@@ -20,6 +20,14 @@ struct StructName //Definition of structure
 			Data[i] = InputData[i];
 	}
 
+	explicit StructName(int InputValue) : Value(InputValue) //Constructo from 1 input parameter
+	//Explicit modifier disallows users of class use non visible transformations, like StructName SN = 5;
+	{
+		Data = new int[Value];
+		for (size_t i = 0; i < Value; i++)
+			Data[i] = 0;
+	}
+
 	//***DESTRUCTOR***//
 	//Destructor - function called when struct instance deleted
 
@@ -45,7 +53,14 @@ struct StructName //Definition of structure
 
 //***CLASS***//
 
-class BasicClass //Class - structure with fields and methods
+class BasicClass //Class - structure with fields and methods, but with another standart access rules
 {
+public: //Access modifier, which allows any outside code use things under it
 
+protected: //Access modifier, which allows use things under it only for child classes
+
+private: //Access modifier, which allows use things under it only for this class
+	//Best place for class fields, in terms of incapsulation (Keeping class invariantable)
+	int Value;
+	int* Data;
 };
