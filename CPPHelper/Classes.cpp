@@ -1,23 +1,51 @@
 #include <iostream>
 #include "CPPHelper.h"
 
-using namespace std; //use namespace std to exclude std:: syntax
+using namespace std; //Use namespace std to exclude std:: syntax
 
-struct StructName //definition of structure
+//***STRUCT***//
+//Struct - structure with own values and methods to work with this values
+
+struct StructName //Definition of structure
 {
 
 	//***CONSTRUCTOR***//
-	StructName(int InputValue, int* InputData) : Value(InputValue) //Value = InputValue
+	//Constructor - function called when struct instance created
+
+	StructName(int InputValue, int* InputData) : Value(InputValue) //Equals to Value = InputValue
 	{
+		//Additional functional and side effects
+		Data = new int[Value]; //Dynamically allocate Data
+		for (size_t i = 0; i < Value; i++) 
+			Data[i] = InputData[i];
+	}
+
+	//***DESTRUCTOR***//
+	//Destructor - function called when struct instance deleted
+
+	~StructName()
+	{
+		delete[] data;
 	}
 
 	//***METHODS***//
-	//methods - functions inside structs
+	//Methods - functions inside structs
 
 	int GetValue() { return Value; }
 
-	privat:
+	void SetValue(const int& InputValue) { this->Value = InputValue; }
+
+	//***FIELDS (STRUCT VARIABLES)***//
 
 	int Value;
 	int* Data;
+};
+
+//This structure is a class
+
+//***CLASS***//
+
+class BasicClass //Class - structure with fields and methods
+{
+
 };
