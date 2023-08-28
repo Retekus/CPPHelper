@@ -6,7 +6,8 @@
 using namespace std; //Use namespace std to exclude std:: syntax
 
 //***CLASSES***//
-//Struct - structure with own values and methods to work with this values
+
+//Struct - structure with it's own values and methods to work with this values
 //Class - structure with fields and methods
 //Object - instance of a class
  
@@ -87,6 +88,8 @@ class BasicClass //Class - structure with fields and methods, but with another s
 {
 public: //Access modifier, which allows any outside code use things under it
 
+
+
 protected: //Access modifier, which allows use things under it only for child classes
 
 private: //Access modifier, which allows use things under it only for this class
@@ -98,7 +101,7 @@ private: //Access modifier, which allows use things under it only for this class
 //***INHARITANCE***//
 
 class BasicClassWithMoreFunctional : public BasicClass //New class inharited from BasicClass
-//New class have same fields with private modifier
+//New class have same fields with same private modifier
 //Public inharitance is common used and matches standart OOP inharitance rules
 //Multiple inharitance not recomended, high risc of undifined behavior
 {
@@ -110,3 +113,58 @@ private:
 
 	StructName NewField_; 
 };
+
+//***OVERLOADING***///
+
+class NonBasicClassA : public BasicClassWithMoreFunctional
+{
+public:
+
+	void CheckInputType(int InputValue) { std::cout << "Value is int: " << InputValue };
+	void CheckInputType(double InputValue) { std::cout << "Value is double: " << InputValue };
+	void CheckInputType(char InputValue) { std::cout << "Value is char: " << InputValue };
+	//Now method is overloaded
+	//When method called, it will work different depending on input value type
+
+};
+
+//***OVERRIDING***///
+
+class Animal
+{
+public:
+
+	void PrintFoodPriority() const { cout << "Unknown"; } //Just method for override
+
+	virtual void PrintName() const { cout << "Unknown"; } //Virtual method. Const means that fields stay constant
+	//Virtual means that if we call class child object using parent type declaration(pointer/link), method still be used from child class 
+
+	virtual int GetAnimalAge() const = 0; //Pure virtual method (abstract), makes class abstract also
+	//Instance of abstract class cannot be created straight forward, cause pure method cannot be called
+
+	virtual ~Animal(){} //Virtual distructor. MUST be in any class with virtual methods, otherwise memory leak garantied
+
+private:
+	int Age_;
+	int FoodPriority_;
+};
+
+class Dog : Animal
+{
+public:
+
+	void PrintFoodPriority() const { cout << "Meat"; } //If we use "Animal" declaration(pointer/link) we will see "Unknown"
+
+	void PrintName() const { cout << "Dog"; } //If we use "Animal" declaration(pointer/link) we will see "Dog"
+
+	int GetAnimalAge() const { return Age_; }
+
+	void SetAnimalAge(int const InputAge) : Age_(InputAge); {}
+
+	~Dog(){delete HairColor_} //Dog destructor will be called first, than animal destructor
+
+private:
+	char* HairColor_; //Additional field
+};
+
+

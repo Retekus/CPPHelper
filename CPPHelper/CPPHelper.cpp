@@ -13,6 +13,8 @@ double Double; //float with 2x size
 
 bool Boolean;
 
+size_t Size; //Usefull data type, have size of machine word, depending on system architecture
+
 //***CONSTANT***//
 
 const int Pi = 3.14; //Make Pi non changable
@@ -112,5 +114,11 @@ int main() //Main function - function where the program begins, if program done 
 
 }
 
+//***FUNCTIONS OVERLOADING***//
 
+
+void PrintValue(int const Value) { std::cout << "Value is int: " << Value; }
+void PrintValue(char const Value) { std::cout << "Value is char: " << Value; }
+void PrintValue(bool const Value) { std::cout << "Value is bool: " << Value ? "true" : "false"; }
+//When function will be called, message will be printed depending on input parameter type
 
