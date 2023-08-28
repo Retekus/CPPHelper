@@ -1,7 +1,7 @@
 // CPP HELPER BY RETEKUS //
 
 #include <iostream>
-#include "CPPHelper.h"
+#include "E:\Saves\Visual studio\Helper\CPPHelper\CPPHelper\CPPHelper.h"
 
 using namespace std; //Use namespace std to exclude std:: syntax
 
@@ -49,7 +49,7 @@ struct StructName
 
 	//"this" means instance of this object
 
-	StructName& operator=(StructName const& Instance)
+	StructName& operator=(StructName const& Instance) //More about "operator" in operator overloading section
 	{
 		if (this != &Instance)
 		{
@@ -88,14 +88,24 @@ class BasicClass //Class - structure with fields and methods, but with another s
 {
 public: //Access modifier, which allows any outside code use things under it
 
+	BasicClass(int const& Value)
+	{
+		Value_ = Value;
+		Data_ = new int[Value_];
+		for (size_t i = 0; i < Value_; i++)
+			Data_[i] = 0;
+	}
 
+	int GetValue() const { return Value_; }
 
 protected: //Access modifier, which allows use things under it only for child classes
+	int Value_;
+	int* Data_;
 
 private: //Access modifier, which allows use things under it only for this class
 	//Best place for class fields, in terms of incapsulation (Keeping class invariantable)
-	int Value_;
-	int* Data_;
+
+	int ErrorCode = 404;
 };
 
 //***INHARITANCE***//
@@ -120,12 +130,24 @@ class NonBasicClassA : public BasicClassWithMoreFunctional
 {
 public:
 
-	void CheckInputType(int InputValue) { std::cout << "Value is int: " << InputValue };
-	void CheckInputType(double InputValue) { std::cout << "Value is double: " << InputValue };
-	void CheckInputType(char InputValue) { std::cout << "Value is char: " << InputValue };
+	void CheckInputType(int InputValue) { std::cout << "Value is int: " << InputValue; };
+	void CheckInputType(double InputValue) { std::cout << "Value is double: " << InputValue; };
+	void CheckInputType(char InputValue) { std::cout << "Value is char: " << InputValue; };
 	//Now method is overloaded
 	//When method called, it will work different depending on input value type
 
+};
+
+//***OPERATOR OVERLOADING***///
+
+class NonBasicClassB : public BasicClassWithMoreFunctional
+{
+	NonBasicClassB operator+(int const& Num)
+	{
+		Value_ += Num;
+		return *this;
+	}
+public:
 };
 
 //***OVERRIDING***///
@@ -144,7 +166,7 @@ public:
 
 	virtual ~Animal(){} //Virtual distructor. MUST be in any class with virtual methods, otherwise memory leak garantied
 
-private:
+protected:
 	int Age_;
 	int FoodPriority_;
 };
@@ -157,11 +179,12 @@ public:
 
 	void PrintName() const { cout << "Dog"; } //If we use "Animal" declaration(pointer/link) we will see "Dog"
 
-	int GetAnimalAge() const { return Age_; }
+	int GetAnimalAge() const 
+	{
+		return Age_; 
+	}
 
-	void SetAnimalAge(int const InputAge) : Age_(InputAge); {}
-
-	~Dog(){delete HairColor_} //Dog destructor will be called first, than animal destructor
+	~Dog() { delete HairColor_; } //Dog destructor will be called first, than animal destructor
 
 private:
 	char* HairColor_; //Additional field

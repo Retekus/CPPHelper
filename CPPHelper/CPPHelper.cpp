@@ -15,6 +15,18 @@ bool Boolean;
 
 size_t Size; //Usefull data type, have size of machine word, depending on system architecture
 
+//***OPERATORS***//
+
+//Arifmetical: + - ++(inc) --(dec) * / % += -= *= /= %=
+
+//Bite: ~(not) &(and) |(or) ^(xor) &= |= ^= <<(slide left) >>(slide right)
+
+//Logic: !(not) &&(and) ||(or) ==(equal) < > <= >= 
+
+//Special: =(assert) *(dereferencing) &(get pointer) ->(same as (*Obj).Method) ->*(idk) , . ::(get into namespace)
+
+//Special: [] () (type) new new[] delete delete[]
+
 //***CONSTANT***//
 
 const int Pi = 3.14; //Make Pi non changable
@@ -31,7 +43,7 @@ const int Pi = 3.14; //Make Pi non changable
 
 //***FUNCTIONS***//
 //Function - piece of code which does something and can be called anywhere, multiple times
-// /*Function return type*/ /*Function name*/ (/*Function parameters*/) {/*Function logic*/}
+// /*Function return type*/ /*Function name*/ (/*Function parameters*/) {/*Function logic*/;}
 
 void Foo() {}; //Function declaration.
 //Void functions return nothing
@@ -121,4 +133,8 @@ void PrintValue(int const Value) { std::cout << "Value is int: " << Value; }
 void PrintValue(char const Value) { std::cout << "Value is char: " << Value; }
 void PrintValue(bool const Value) { std::cout << "Value is bool: " << Value ? "true" : "false"; }
 //When function will be called, message will be printed depending on input parameter type
+
+int ReturnHalf(int const Value) { return Value / 2; }
+double ReturnHalf(double const Value) { return Value / 2; }
+//Return type depends on input type
 
