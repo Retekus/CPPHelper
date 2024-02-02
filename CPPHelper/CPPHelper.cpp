@@ -5,6 +5,8 @@
 char Character;
 
 int Integer;
+long LongInt; //long == long int
+unsigned InsignedInt; //unsigned == unsigned int (only positive values)
 
 float Float; //floating poit
 double Double; //float with 2x size
@@ -25,14 +27,9 @@ size_t Size; //Usefull data type, have size of machine word, depending on system
 
 //Special: [] () (type) new new[] delete delete[]
 
-//***TYPE MODIFIERS***//
+//***CONSTANT***//
 
-int const Pi = 3.14; //Make Pi non changable
-
-long LongInt; //long == long int(more data)
-unsigned InsignedInt; //unsigned == unsigned int (only positive values)
-
-extern int SomeValue; //Declare variable without initialization
+const int Pi = 3.14; //Make Pi non changable
 
 //***MACROS***//
 
