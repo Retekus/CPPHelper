@@ -22,6 +22,7 @@ randomSeed(seedVal); //randomize
 attachInterrupt(pin, function, mode); //Modes: LOW, RISING(low -> high), FALLING(hing -> low), CHANGE. Pins: 1 - 1st interruptable pin
 //must be in setup function, works whole time
 deattachInterrupt(pin);
-noInterrupts();
+noInterrupts(); //full off interrupts
 interrupts();
 volotile varTypr var; //make var interruptable
+
