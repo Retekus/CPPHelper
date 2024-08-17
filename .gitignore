@@ -364,5 +364,12 @@ FodyWeavers.xsd
 
 # Custom
 .vcxproj
+.vcxproj.user
 .filters
 CPPHelper.vcxproj.filters
+
+# Visual Studio 2019 cache/options directory
+.vs/
+
+# Add this line
+out/
