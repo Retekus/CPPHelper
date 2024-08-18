@@ -105,7 +105,11 @@ int main() //Main function - function where the program begins, if program done 
 
     int* Pointer2 = &Integer; //& - get variable adress operator
 
-    Integer = *Pointer; //get value inside Pointer pointing adress
+    Integer = *Pointer; //dereference - get value inside Pointer pointing adress
+	
+	void Fun(int* Val){return;};
+	...
+	Fun(&Val); //function work with pointer
 
 //***ARRAYS***//
 
@@ -113,7 +117,7 @@ int main() //Main function - function where the program begins, if program done 
     //FixedArr is a pointer to first value in array
     //FixedArr[4] is equal to *(FixedArr + 4)
 
-    std::vector<int> Vector; //create vector - dynamical array
+    std::vector<int> Vector; //create vector - dynamic array with specific functions
 
     int* DynArr = new int[Integer]; //create dynamic array, allocated in heap
 
