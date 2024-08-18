@@ -41,6 +41,7 @@ extern int SomeValue; //Declare variable without initialization
 #include <cstdlib> //standart C library
 #include <string> //standart C++ string library
 #include <set> //standart SET library
+#include <stddef> //NULL
 
 #include "CPPHelper.h" //add ur own .cpp/.h/... files
 
