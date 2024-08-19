@@ -118,6 +118,8 @@ int main() //Main function - function where the program begins, if program done 
 	int& ValRef = Val; //create reference wich can be used as variable itself
 	
 	void Fun(int& Val) {Val = 0; return;} //work with local val as it is external
+	
+	void ArrFun(int (&Arr)[5]) {...} //now calling ArrFun with Arr[val != 5] throws error
 
 //***ARRAYS***//
 
