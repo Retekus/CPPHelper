@@ -120,6 +120,8 @@ int main() //Main function - function where the program begins, if program done 
 	void Fun(int& Val) {Val = 0; return;} //work with local val as it is external
 	
 	void ArrFun(int (&Arr)[5]) {...} //now calling ArrFun with Arr[val != 5] throws error
+	
+	void Fun(heavyType const &Val) {...} //constant references are useful for large objects
 
 //***ARRAYS***//
 
@@ -144,6 +146,18 @@ int main() //Main function - function where the program begins, if program done 
 	}
 
     std::vector<int> Vector; //create vector - dynamic array with specific functions
+	
+//***DYNAMIC MEMORY***//
+
+	//C - style dyn mem functions: malloc, calloc, realloc, free
+	//C++ - style:
+	int* PtrInt = new int(5); //create int in dym mem
+	delete PtrInt; //free mem from int
+	
+	Arr = new int[DynValue]; //create int arr in dyn mem
+	delete[] Arr; //free mem from int arr
+	
+//***DYNAMIC ARRAYS***//
 
     int* DynArr = new int[Integer]; //create dynamic array, allocated in heap
 
