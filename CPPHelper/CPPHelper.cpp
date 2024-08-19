@@ -123,6 +123,15 @@ int main() //Main function - function where the program begins, if program done 
 		//great way to make some array function, also works with void arrays
 		return Ptr;
 	}
+	
+	bool FindElement(int* NullArrElement, int* LastArrElement, int* TargetElement)
+	{
+		if (NullArrElement == LastArrElement) return false;
+		//function returns false if void array
+		int* Ptr;
+		TargetElement = Ptr; //get target element through pointer
+		return true;
+	}
 
     std::vector<int> Vector; //create vector - dynamic array with specific functions
 
