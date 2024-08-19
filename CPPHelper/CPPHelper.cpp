@@ -116,6 +116,13 @@ int main() //Main function - function where the program begins, if program done 
     int FixedArr[5] = {}; //create fixed 5 values array in stack memory
     //FixedArr is a pointer to first value in array
     //FixedArr[4] is equal to *(FixedArr + 4)
+	
+	int* ArrFun(int* NullArrElement(ArrName), int* LastArrElement + 1)
+	{
+		int* Ptr = NullArrElement + Smth;
+		//great way to make some array function, also works with void arrays
+		return Ptr;
+	}
 
     std::vector<int> Vector; //create vector - dynamic array with specific functions
 
