@@ -108,9 +108,16 @@ int main() //Main function - function where the program begins, if program done 
 
     Integer = *Pointer; //dereference - get value inside Pointer pointing adress
 	
-	void Fun(int* Val){return;};
+	void Fun(int* ValPtr){*ValPtr = 0; return;} //set some value to 0
 	...
 	Fun(&Val); //function work with pointer
+	
+//***REFERENCES***//
+
+	int Val = 0;
+	int& ValRef = Val; //create reference wich can be used as variable itself
+	
+	void Fun(int& Val) {Val = 0; return;} //work with local val as it is external
 
 //***ARRAYS***//
 
