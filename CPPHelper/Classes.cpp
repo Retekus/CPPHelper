@@ -190,4 +190,4 @@ private:
 	char* HairColor_; //Additional field
 };
 
-
+noexcept //

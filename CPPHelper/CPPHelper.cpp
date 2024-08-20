@@ -151,10 +151,10 @@ int main() //Main function - function where the program begins, if program done 
 
 	//C - style dyn mem functions: malloc, calloc, realloc, free
 	//C++ - style:
-	int* PtrInt = new int(5); //create int in dym mem
+	int* PtrInt = new int(InitValue); //create int in dym mem
 	delete PtrInt; //free mem from int
 	
-	Arr = new int[DynValue]; //create int arr in dyn mem
+	int* Arr = new int[DynValue]; //create int arr in dyn mem
 	delete[] Arr; //free mem from int arr
 	
 //***DYNAMIC ARRAYS***//
