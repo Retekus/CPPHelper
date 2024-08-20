@@ -190,4 +190,5 @@ private:
 	char* HairColor_; //Additional field
 };
 
-noexcept //
+//noexcept //
+//forward declaration//
