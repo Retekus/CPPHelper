@@ -21,15 +21,26 @@ using namespace std; //Use namespace std to exclude std:: syntax
 
 struct StructName 
 {
+	//***FIELDS***//
+	//Field is just a name for structs variable
 
+	int Value_; //Usually looks like this: FieldName_
+	int* Data_;
+	
+	//***METHODS***//
+	//Methods - functions inside structs
 
+	int GetValue() { return Value_; }
+
+	void SetValue(const int& InputValue) { this->Value_ = InputValue; }
+	
 	//***CONSTRUCTOR***//
 	//Constructor - method called when struct instance being created
 
 	StructName(int InputValue, int* InputData) : Value_(InputValue) //Equals to Value = InputValue
 	{
 		//Additional things and side effects
-		Data_ = new int[Value_]; //Dynamically allocate Data
+		Data_ = new int[Value_]; //Allocate Data_ in heap
 		for (size_t i = 0; i < Value_; i++) 
 			Data_[i] = InputData[i];
 	}
@@ -74,17 +85,8 @@ struct StructName
 		delete[] Data_;
 	}
 
-	//***METHODS***//
-	//Methods - functions inside structs
 
-	int GetValue() { return Value_; }
 
-	void SetValue(const int& InputValue) { this->Value_ = InputValue; }
-
-	//***FIELDS (STRUCT VARIABLES)***//
-
-	int Value_; //Usually looks like this: FieldName_
-	int* Data_;
 };
 
 

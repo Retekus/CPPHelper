@@ -55,12 +55,17 @@ extern int SomeValue; //Declare variable without initialization
 #include "path/CPPHelper.h" //add ur own header(.h .hpp ...) files
 //Also .cpp files can be included, but its is a bad style
 
-//"" and <> just shows place for preprocessor where file should be found
+//"" and <> just shows place for preprocessor where file could be found
 
 #define PREPR_VALUE //preprocessor definition
 
 #ifdef PREPR_VALUE #endif //if PREPR_VALUE defined do code till endif
 #ifndef PREPR_VALUE #endif //if PREPR_VALUE undefined do code till endif
+
+#undef PREPR_VALUE //preprocessor undefinition
+
+#define MAX(a, b) a >= b ? a : b //example of macro function. 
+//Pasted just like a text, so behavior can be unpredictable
 
 //***FUNCTIONS***//
 //Function - piece of code which does something and can be called anywhere, multiple times
@@ -127,6 +132,9 @@ int main() //Main function - function where the program begins, if program done 
 	void Fun(int* ValPtr){*ValPtr = 0; return;} //set some value to 0
 	...
 	Fun(&Val); //function work with pointer
+	
+	ClassType* ClassPtr = &Class;
+	ClassPtr->ClassField = Val; // -> operator equal to (*ClassPtr).ClassField...
 	
 //***REFERENCES***//
 
