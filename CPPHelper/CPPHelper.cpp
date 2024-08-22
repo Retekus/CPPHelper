@@ -36,15 +36,31 @@ extern int SomeValue; //Declare variable without initialization
 
 //***MACROS***//
 
-#include <iostream> //add standart library (InputOutputSTREAM)
-#include <vector> //standart dynamical array library
-#include <cstdlib> //standart C library
-#include <string> //standart C++ string library
-#include <set> //standart SET library
-#include <stddef> //NULL
-#include <algorithm> //most popular algorithms (sort...)
+//Macros are special commands for preprocessor
+//Preprocessor scans code before compiling and does macros commands
+//Macros can be used as functions, but preprocessor works with them like with text
 
-#include "CPPHelper.h" //add ur own .cpp/.h/... files
+#include //include macro, used for adding parts of code. Usually its headers or libraris
+
+//Some standart(stl) libs:
+#include <iostream> //Input Output Stream (C++ style console i/o system)
+#include <iomanip> //Input Output Manipulations (setw(val), ...)
+#include <vector> //standart dynamic array library
+#include <cstdlib> //classic C lib
+#include <string> //C++ string lib
+#include <set> //SET(of data) library
+#include <stddef> //definitions (like NULL)
+#include <algorithm> //usefull stl algorithms (sort...)
+
+#include "path/CPPHelper.h" //add ur own header(.h .hpp ...) files
+//Also .cpp files can be included, but its is a bad style
+
+//"" and <> just shows place for preprocessor where file should be found
+
+#define PREPR_VALUE //preprocessor definition
+
+#ifdef PREPR_VALUE #endif //if PREPR_VALUE defined do code till endif
+#ifndef PREPR_VALUE #endif //if PREPR_VALUE undefined do code till endif
 
 //***FUNCTIONS***//
 //Function - piece of code which does something and can be called anywhere, multiple times
@@ -169,7 +185,7 @@ int main() //Main function - function where the program begins, if program done 
 
     int** DynArr2DEff = new int* [rows]; //create dynamic array. Efficient memory allocation
     DynArr2DEff[0] = new int[rows * cols];
-    for (size_t i = 0; i < rows; i++)
+    for (size_t i = 1; i < rows; i++)
         DynArr2DEff[i] = DynArr2DEff[i - 1] + cols;
 
 }

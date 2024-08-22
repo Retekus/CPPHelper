@@ -1,15 +1,21 @@
 // CPP HELPER BY RETEKUS //
 
 #include <iostream>
-#include "E:\Saves\Visual studio\Helper\CPPHelper\CPPHelper\CPPHelper.h"
+#include "path\CPPHelper.h"
 
 using namespace std; //Use namespace std to exclude std:: syntax
 
 //***CLASSES***//
 
 //Struct - structure with it's own values and methods to work with this values
-//Class - structure with fields and methods
+//Class - structure with specific access preferences
 //Object - instance of a class
+ 
+ //Commonly classes are declared in header(.h .hpp ...) files
+ //and defined in .cpp files
+ //This separation allows to recompile .cpp files without recompiling the whole project
+ //But if declaration inside header needs to be changed, all files with this header
+ //included must be recompiled
  
 //***STRUCT***//
 
@@ -18,18 +24,19 @@ struct StructName
 
 
 	//***CONSTRUCTOR***//
-	//Constructor - function called when struct instance created
+	//Constructor - method called when struct instance being created
 
 	StructName(int InputValue, int* InputData) : Value_(InputValue) //Equals to Value = InputValue
 	{
-		//Additional functional and side effects
+		//Additional things and side effects
 		Data_ = new int[Value_]; //Dynamically allocate Data
 		for (size_t i = 0; i < Value_; i++) 
 			Data_[i] = InputData[i];
 	}
 
 	explicit StructName(int InputValue) : Value_(InputValue) //Constructor from 1 input parameter
-	//Explicit modifier disallows users of class use non visible transformations, like StructName SN = 5;
+	//Explicit modifier disallows users of class use non visible transformations, like 
+	//StructName StructInstance = SomeValue;
 	{
 		Data_ = new int[Value_];
 		for (size_t i = 0; i < Value_; i++)
@@ -47,7 +54,7 @@ struct StructName
 
 	//***ASSIGN CONSTRUCTOR***//
 
-	//"this" means instance of this object
+	//Key word "this" is a pointer to exact instance
 
 	StructName& operator=(StructName const& Instance) //More about "operator" in operator overloading section
 	{
@@ -80,7 +87,8 @@ struct StructName
 	int* Data_;
 };
 
-//This structure is a class
+
+
 
 //***CLASS***//
 
