@@ -31,13 +31,18 @@ struct StructName
 	//Methods - functions inside structs
 
 	int GetValue() { return Value_; }
+	
+	int GetValueX2(); //Method declaration (example of outside realisation)
 
 	void SetValue(const int& InputValue) { this->Value_ = InputValue; }
 	
 	//***CONSTRUCTOR***//
 	//Constructor - method called when struct instance being created
+	//Constructor have same name as struct/class
 
-	StructName(int InputValue, int* InputData) : Value_(InputValue) //Equals to Value = InputValue
+	StructName(int InputValue, int* InputData) : Value_(InputValue) //Initialisation list
+	//Equals to Value = InputValue
+	//ATTENTION there fields are initialasing in the same order as they declared (Value_ than Data_ than ...)
 	{
 		//Additional things and side effects
 		Data_ = new int[Value_]; //Allocate Data_ in heap
@@ -84,13 +89,10 @@ struct StructName
 	{
 		delete[] Data_;
 	}
+	
+}; //ATTENTION struct/class must have semicolon after figure brackets
 
-
-
-};
-
-
-
+int StructName::GetValueX2() { return this->Value_ * 2} //Method defenition (xample of outside realisation)
 
 //***CLASS***//
 

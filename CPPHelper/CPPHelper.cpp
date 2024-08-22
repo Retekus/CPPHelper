@@ -6,8 +6,8 @@ char Character;
 
 int Integer;
 
-float Float; //floating poit
-double Double; //float with 2x size
+float Float; //floating poit, 7 symbols after dot
+double Double; //float with 2x precision, 15 symbols after dot
 
 bool Boolean;
 
@@ -47,6 +47,7 @@ extern int SomeValue; //Declare variable without initialization
 #include <iomanip> //Input Output Manipulations (setw(val), ...)
 #include <vector> //standart dynamic array library
 #include <cstdlib> //classic C lib
+#iclude <cstdint> //fixed size integers (int_64t, uint64_t, ...) u - unsigned
 #include <string> //C++ string lib
 #include <set> //SET(of data) library
 #include <stddef> //definitions (like NULL)
@@ -104,6 +105,8 @@ int main() //Main function - function where the program begins, if program done 
 
     default: /*defauld instructions*/;
     }
+	
+//It is recomended to use commonly true conditions in brunches for better pefomance (brunch missprediction)
 
 //***LOOPS***//
 
@@ -123,9 +126,22 @@ int main() //Main function - function where the program begins, if program done 
 
 //***POINTERS***//
 
-    int* Pointer = 0; //create pointer to memory cell with int variable inside (0 == nowhere)
+//Pointers are representing adress in memory. Every type have its own fixed size but pointers are usually
+//have fixed size for every type
+//On 64-bit OS usually pointer is 8 bytes
 
+    int* Pointer = 0; //create pointer to memory cell with int variable inside (0 == nowhere(C style))
+	
+	void* InvalidPtr = nullptr; //special value for invalid pointer (C++ style)
+	
     int* Pointer2 = &Integer; //& - get variable adress operator
+	
+	void* VoidPtr = 0x1000; //pointer of unknown type
+	
+	char* CharPtr = (char*) 0x1000; //link 0x1000 to char adress
+	
+	//Larger aress cells converts different, depends on hardwear architecture
+	//For x86 - little endian (bytes are growing from end to begin). Important for crossplatform apps
 
     Integer = *Pointer; //dereference - get value inside Pointer pointing adress
 	
@@ -135,6 +151,10 @@ int main() //Main function - function where the program begins, if program done 
 	
 	ClassType* ClassPtr = &Class;
 	ClassPtr->ClassField = Val; // -> operator equal to (*ClassPtr).ClassField...
+	
+	int* Ptr = Pointer + 2; //move pointer on 2 => 2 * 8 bytes = on 16 bytes (for 64-bit OS)
+	
+	ptrdiff_t Diff = Pointer - Pointer2; //special type wich 100% can contain 2 pointers difference
 	
 //***REFERENCES***//
 
@@ -209,4 +229,3 @@ void PrintValue(bool const Value) { std::cout << "Value is bool: " << Value ? "t
 int ReturnHalf(int const Value) { return Value / 2; }
 double ReturnHalf(double const Value) { return Value / 2; }
 //Return type depends on input type
-
