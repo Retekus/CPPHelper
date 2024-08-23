@@ -33,6 +33,8 @@ short ShInt; //short int
 long LongInt; //long == long int(more data)
 unsigned InsignedInt; //unsigned == unsigned int (only positive values)
 
+auto Val = 3; //type changes automatically
+
 //Short/long variables size depends on OS
 
 //***MACROS***//
@@ -54,6 +56,7 @@ unsigned InsignedInt; //unsigned == unsigned int (only positive values)
 #include <stddef> //definitions (like NULL)
 #include <algorithm> //usefull stl algorithms (sort...)
 #include <cmath> //mathematical functions (cos(), floor(), ...)
+#include <functional> //
 
 #include "path/CPPHelper.h" //add ur own header(.h .hpp ...) files
 //Also .cpp files can be included, but its is a bad style
@@ -75,13 +78,17 @@ unsigned InsignedInt; //unsigned == unsigned int (only positive values)
 
 const float gEarth = 10;
 namespace preciseValue	{ const float gEarth = 9.81; const float copperRes = 0.017; }
+namespace uselessFunc { void Nothing(){return;}}
+namespace insertedA { namespace insertedB {InVal = 0;}}
 
 gEarth == 10;
 preciseValue::gEarth == 9.81;
 
 {
 	using namespace namespaceName; //key word using to use namespace everywhere in visible area
-	gEarth == 10; //to get smt from namespace with the same name as in global :: must be used
+	using namespace uselessFunc::Nothing; //only 1 function inserted from namespace
+	using namespace insertedA::insertedB; //multiple namespaces
+	gEarth == ???; //Undefined behavior
 	copperResistance == 0.017;
 }
 copperRes == undefined;
@@ -90,12 +97,12 @@ copperRes == undefined;
 //Function - piece of code which does something and can be called anywhere, multiple times
 // /*Function return type*/ /*Function name*/ (/*Function parameters*/) {/*Function logic*/;}
 
-void Foo() {}; //Function declaration.
+	void Foo() {}; //Function declaration.
 //Void functions return nothing
 
 int Bar(int value)
 {
-    return value; //Function returns value
+	return value; //Function returns value
 }
 
 //***MAIN FUNCTION***//
@@ -176,6 +183,37 @@ int main() //Main function - function where the program begins, if program done 
 	
 	const char* str = "Text"; //"Text" is char array by default, not string from <string> lib
 	
+//***SMART POINTER***//
+
+	
+	
+//***FUNCTION POINTER***//
+//Function poiter is a powerfull ability, used in patterns like: callback, conveyor
+	
+	void Func(int x) {return;}
+
+	typedef void (*FuncPtr)(int); //define FuncPtr as type wich is pointer to void function with int parameter
+	FuncPtr ptr = Func; //adress of a function
+	ptr(Val); //used as standart function call
+	
+	using FooPtr = void(*)(int); //C++11 typedef althernative
+	
+//***LAMBDA FUNCTION***//
+//Lambda function is function with short declaration, wich can use outside variables
+//Syntax: [take list](parameters){body}
+//[] - without outside take
+//[=] - take all value(copy)
+//[&] - take all reference
+//[x, y] - take x y value(copy)
+//[x, &y] - take x value and y ref
+//[x, &y], [=, &y], ...
+
+	auto LFunc = [](int Val){ return Val;};
+	
+	auto Func = [x](){ x = 10; } //ERROR x copied but not changable
+	//without mutable key word compiler will throw error
+	auto Func = [x]() mutable { x = 10; }
+	
 //***REFERENCES***//
 
 	int Val = 0;
@@ -236,7 +274,7 @@ int main() //Main function - function where the program begins, if program done 
     for (size_t i = 1; i < rows; i++)
         DynArr2DEff[i] = DynArr2DEff[i - 1] + cols;
 
-}
+} //end main
 
 //***FUNCTIONS OVERLOADING***//
 
