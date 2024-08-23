@@ -21,17 +21,19 @@ size_t Size; //Usefull data type, have size of machine word, depending on system
 
 //Logic: !(not) &&(and) ||(or) ==(equal) < > <= >= 
 
-//Special: =(assert) *(dereferencing) &(get pointer) ->(same as (*Obj).Method) ->*(idk) , . ::(get into namespace)
+//Special: =(assert) *(dereferencing) &(get pointer) ->((*Obj).Method) ->*(idk) , . ::(get into namespace or class)
 
 //Special: [] () (type) new new[] delete delete[]
 
 //***TYPE MODIFIERS***//
 
-int const Pi = 3.14; //Make Pi non changable
+int const PI = 3.14; //Make Pi non changable
 
+short ShInt; //short int
 long LongInt; //long == long int(more data)
 unsigned InsignedInt; //unsigned == unsigned int (only positive values)
 
+//Short/long variables size depends on OS
 
 //***MACROS***//
 
@@ -46,11 +48,12 @@ unsigned InsignedInt; //unsigned == unsigned int (only positive values)
 #include <iomanip> //Input Output Manipulations (setw(val), ...)
 #include <vector> //standart dynamic array library
 #include <cstdlib> //classic C lib
-#iclude <cstdint> //fixed size integers (int_64t, uint64_t, ...) u - unsigned
+#include <cstdint> //fixed size integers (int_64t, uint64_t, ...) u - unsigned
 #include <string> //C++ string lib
 #include <set> //SET(of data) library
 #include <stddef> //definitions (like NULL)
 #include <algorithm> //usefull stl algorithms (sort...)
+#include <cmath> //mathematical functions (cos(), floor(), ...)
 
 #include "path/CPPHelper.h" //add ur own header(.h .hpp ...) files
 //Also .cpp files can be included, but its is a bad style
@@ -66,6 +69,22 @@ unsigned InsignedInt; //unsigned == unsigned int (only positive values)
 
 #define MAX(a, b) a >= b ? a : b //example of macro function. 
 //Pasted just like a text, so behavior can be unpredictable
+
+//***NAMESPACE***//
+//Namespace is a list of some functions, methods, variables ...
+
+const float gEarth = 10;
+namespace preciseValue	{ const float gEarth = 9.81; const float copperRes = 0.017; }
+
+gEarth == 10;
+preciseValue::gEarth == 9.81;
+
+{
+	using namespace namespaceName; //key word using to use namespace everywhere in visible area
+	gEarth == 10; //to get smt from namespace with the same name as in global :: must be used
+	copperResistance == 0.017;
+}
+copperRes == undefined;
 
 //***FUNCTIONS***//
 //Function - piece of code which does something and can be called anywhere, multiple times
