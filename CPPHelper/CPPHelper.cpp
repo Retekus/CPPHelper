@@ -32,7 +32,6 @@ int const Pi = 3.14; //Make Pi non changable
 long LongInt; //long == long int(more data)
 unsigned InsignedInt; //unsigned == unsigned int (only positive values)
 
-extern int SomeValue; //Declare variable without initialization
 
 //***MACROS***//
 
@@ -155,6 +154,8 @@ int main() //Main function - function where the program begins, if program done 
 	int* Ptr = Pointer + 2; //move pointer on 2 => 2 * 8 bytes = on 16 bytes (for 64-bit OS)
 	
 	ptrdiff_t Diff = Pointer - Pointer2; //special type wich 100% can contain 2 pointers difference
+	
+	const char* str = "Text"; //"Text" is char array by default, not string from <string> lib
 	
 //***REFERENCES***//
 

@@ -10,3 +10,6 @@
 
 int Arr[5];
 
+extern int SomeValue; //Declare variable without initialization
+//extern means external linkage - variable accesible from different translation units
+
