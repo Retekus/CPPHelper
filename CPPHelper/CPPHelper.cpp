@@ -15,15 +15,17 @@ size_t Size; //Usefull data type, have size of machine word, depending on system
 
 //***OPERATORS***//
 
-//Arifmetical: + - ++(inc) --(dec) * / % += -= *= /= %=
+//Arifmetical: +  -  ++(inc)  --(dec)  *  /  %  +=  -=  *=  /=  %=
 
-//Bite: ~(not) &(and) |(or) ^(xor) &= |= ^= <<(slide left) >>(slide right)
+//Bite: ~(not)  &(and)  |(or)  ^(xor)  &=  |=  ^=  <<(slide left)  >>(slide right)
 
-//Logic: !(not) &&(and) ||(or) ==(equal) < > <= >= 
+//Logic: !(not)  &&(and)  ||(or)  ==(equal)  <  >  <=  >=
 
-//Special: =(assert) *(dereferencing) &(get pointer) ->((*Obj).Method) ->*(idk) , . ::(get into namespace or class)
+//Special: =(assert)  *(dereferencing)  &(get pointer)  ->((*Obj).Method)  ->*()  ,  .  ::
 
 //Special: [] () (type) new new[] delete delete[]
+
+//Type changer: (newType)Var  newType(Var)  static_cast<newType>(Var)
 
 //***TYPE MODIFIERS***//
 
