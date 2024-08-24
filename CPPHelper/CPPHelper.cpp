@@ -75,6 +75,8 @@ auto Val = 3; //type changes automatically
 #define MAX(a, b) a >= b ? a : b //example of macro function. 
 //Pasted just like a text, so behavior can be unpredictable
 
+#pragma someCommand //Compiler commands. Avaible comands depends on compiler 
+
 //***NAMESPACE***//
 //Namespace is a list of some functions, methods, variables ...
 
@@ -261,6 +263,25 @@ int main() //Main function - function where the program begins, if program done 
 	int* Arr = new int[DynValue]; //create int arr in dyn mem
 	delete[] Arr; //free mem from int arr
 	
+	//Placement new
+	void* ptr = NewAlloc(sizeof(Val)); //Self made allocation system, might be useful in some cases
+	Val* Arr = new(ptr) Val[10]; //"new" operator places memory directly where needed
+	Arr->~Val(); //force call destructor
+	NewFree(ptr); //self made mem free
+	//Memory leveling can cause problems and bring undifined behaviour
+	
+	//ALIGNING
+	//Aligning is compiler function for better and faster data proccessing
+	//Aligning works different on different platforms and OSs
+	#pragma pack(push, 1) //Change data packing aligning to 1 (without alight)
+	//...code
+	#pragma pack(pop) //Back to default alining
+	
+	alignof(char) == 1; //Get needed space for char
+	sizeof(Pointer) == ...; //Get size of taken room in memory. It can be variables, arrays, objects and so on
+	offsetof(ptr1, ptr2) == ...; //Get offset between 2 pointers
+	alignas(RequiredVolume) char arr[Val]; //Custom alignment. RequiredVolume must be larger than needed
+	
 //***DYNAMIC ARRAYS***//
 
     int* DynArr = new int[Integer]; //create dynamic array, allocated in heap
@@ -280,7 +301,6 @@ int main() //Main function - function where the program begins, if program done 
 
 //***FUNCTIONS OVERLOADING***//
 
-
 void PrintValue(int const Value) { std::cout << "Value is int: " << Value; }
 void PrintValue(char const Value) { std::cout << "Value is char: " << Value; }
 void PrintValue(bool const Value) { std::cout << "Value is bool: " << Value ? "true" : "false"; }
@@ -289,3 +309,12 @@ void PrintValue(bool const Value) { std::cout << "Value is bool: " << Value ? "t
 int ReturnHalf(int const Value) { return Value / 2; }
 double ReturnHalf(double const Value) { return Value / 2; }
 //Return type depends on input type
+
+//***CONSTANTS***//
+//Key word "const" works with value on the left
+
+int const * ptr = &Val; //pointer to const value
+*ptr = 0; //Error
+
+int * const ptr = &Val; //constant pointer to changable value
+ptr = nullptr; //Error

@@ -24,8 +24,10 @@ struct StructName
 	//***FIELDS***//
 	//Field is just a name for structs variable
 
-	int _Value; //Usually looks like this: _FieldName
+	int _Value; //Usually looks like this: _FieldName or FieldName_
 	int* _Data;
+	mutable int _MutableVal;
+	int _Val = 10; //Since C++11 its possible to init field right after declaration
 	
 	//***METHODS***//
 	//Methods - functions inside structs
@@ -33,6 +35,9 @@ struct StructName
 	int GetValue() { return _Value; }
 	
 	int GetValueX2(); //Method declaration (example of outside realisation)
+	
+	bool ConstMeth() const {_MutableVal = 0; return _MutableVal == 0;} //If method const, compiler will check that fields are not changing
+	//Mutable key word makes fields changable inside constant methods
 
 	void SetValue(const int& InputValue) { this->_Value = InputValue; }
 	
@@ -44,7 +49,10 @@ struct StructName
 	//If 1 or more constructors are declared the default is disabled so redeclare it if needed
 
 	StructName(int InputValue, int* InputData) : _Value(InputValue) //Initialisation list
-	//Equals to Value = InputValue
+	//Equals to _Value = InputValue
+	//Init list highly recomended when fields are also structs (agregating)
+	//Init list calls field constructor with parameters avoid creating it with default constructor
+	//and calling its constructor with parameters then again
 	//ATTENTION there fields are initialasing in the same order as they declared (_Value than _Data than ...)
 	{
 		//Additional things and side effects
@@ -101,12 +109,12 @@ struct StructName
 
 int StructName::GetValueX2() { return this->_Value * 2} //Method defenition (example of outside realisation)
 
-//ATTENTION object definition can be converted into function declaration by compiler:
+//ATTENTION object definition can be understood as function declaration by compiler:
 StructName Struct1; //Variable definition
 StructName Struct2(); //Function declaration
-//Same possible with type changers
+//Same possible with type changers looks like variables
 
-//Instances destructors works backward
+//Instances destructor works backward
 {	StructName Struct1;
 	StructName Struct2;
 } //Struct2 deleted than Struct1
@@ -148,7 +156,7 @@ private:
 
 	//***AGGREGATING***//
 //Using class as field of another class
-//Sometimes inharitance used when aggregating must be used
+//Sometimes inharitance used when aggregating is enough
 
 	StructName NewField_; 
 };
