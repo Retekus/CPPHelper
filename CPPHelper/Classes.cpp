@@ -19,8 +19,8 @@
  
 //***STRUCT***//
 
-struct StructName 
-{
+	struct StructName 
+	{
 //***FIELDS***//
 	//Field is a structure variable
 
@@ -106,7 +106,7 @@ struct StructName
 		delete[] _Data;
 	}
 	
-}; //ATTENTION struct/class must have semicolon after figure brackets
+	}; //ATTENTION struct/class must have semicolon after figure brackets
 
 	int StructName::GetValueX2() { return this->_Value * 2} //Method defenition (example of outside realisation)
 
@@ -122,9 +122,9 @@ struct StructName
 
 //***CLASS***//
 
-class BasicClass //Class - structure with fields and methods, but with another standart access rules
-{
-public: //Access modifier, which allows any outside code use things under it
+	class BasicClass //Class - structure with fields and methods, but with another standart access rules
+	{
+	public: //Access modifier, which allows any outside code use things under it
 
 	BasicClass(int const& Value)
 	{
@@ -140,40 +140,61 @@ public: //Access modifier, which allows any outside code use things under it
 	//Friend finction have access to private and protected fields of a class
 	//But are not in scope of a class and not invoked furing construction
 
-protected: //Access modifier, which allows use things under it only for child classes
+	protected: //Access modifier, which allows use things under it only for child classes
 	int _Value;
 	int* _Data;
 
-private: //Access modifier, which allows use things under it only for this class
+	private: //Access modifier, which allows use things under it only for this class
 	//Best place for class fields, in terms of incapsulation (Keeping class invariant)
 
 	int _ErrorCode = 404;
-};
+	};
 
 	void FriendFunction(BasicClass& classInstance) {classInstance._ErrorCode = 0;} //Friend function definition looks like default function
 	//Friend function still can be overloaded and used with other types and dont care about class life time 
 
+//***FORWARD DECLARATION***//
+	//Forward declaration is a way to avoid cycled reinclude of 2 or more classes in different files
+	class ForwardDeclared;
+	class UseFwD
+	{
+		ForwardDeclared fwd;
+	};
+	
+	//>>>./ForwardDeclared.cpp
+	class UseFwD;
+	class ForwardDeclared
+	{
+		UseFwD user;
+	};
+	//>>../
+
 //***INHARITANCE***//
 
-class BasicClassWithMoreFunctional : public BasicClass //New class inharited from BasicClass
+	class BC1 : protected BasicClass {}; //Protected inheritance makes public fields - protected
+	class BC2 : private BasicClass {}; //Private inheritance makes public and protected fields - private
+	
+	class FinalClass final {}; //Key word "final" makes class non inharitable
+	
+	class BasicClassWithMoreFunctional : public BasicClass, private StructName //New class inharited from BasicClass and StructName
 	//New class have same fields with same private modifier
 	//Public inharitance is common used and matches standart OOP inharitance rules
-	//Multiple inharitance not recomended, high risc of undifined behavior
-{
-private:
+	//Multiple inharitance not recomended, high risc of undifined behavior, but sometimes its usefull to add some functionality
+	{
+	private:
 
 //***AGGREGATING***//
 	//Using class as field of another class
 	//Sometimes inharitance used when aggregating is enough
 
 	StructName NewField_; 
-};
+	};
 
 //***OVERLOADING***///
 
-class NonBasicClassA : public BasicClassWithMoreFunctional
-{
-public:
+	class NonBasicClassA : public BasicClassWithMoreFunctional
+	{
+	public:
 
 	void CheckInputType(int InputValue) { std::cout << "Value is int: " << InputValue; };
 	void CheckInputType(double InputValue) { std::cout << "Value is double: " << InputValue; };
@@ -181,37 +202,55 @@ public:
 	//Now method is overloaded
 	//When method called, it will work different depending on input value type
 
-};
+	};
 
 //***OPERATOR OVERLOADING***///
 
-class NonBasicClassB : public BasicClassWithMoreFunctional
-{
+	class NonBasicClassB : public BasicClassWithMoreFunctional
+	{
 	NonBasicClassB operator+(int const& Num)
 	{
 		_Value += Num;
 		return *this;
 	}
 	
-	friend NonBasicClassB operator+(const StructName snVar, const NonBasicClassB nbcB)
-	{
-		this->_Value += snVar._Value;
-		return *this;
-	}
-	
+	friend NonBasicClassB operator+(const StructName snVar, const NonBasicClassB nbcB);
+
 	bool operator==(NonBasicClassB const& other) const //ref used to avoid copying
 	{
 		if (other._Value == this->_Value) return true;
 		return false;
 	}
-public:
-};
+	
+	NonBasicClassB& operator++() {}; //Prefix increment - ++val
+	NonBasicClassB& operator++(int) {}; //Postfix increment - val++	
+	
+	const NonBasicClassB& operator[](size_t i) const {return _Data[i];} //Read only
+	NonBasicClassB& operator[](size_t i) {return _Data[i];} //Read/write
+	public:
+	};
+
+	NonBasicClassB operator+(const StructName snVar, const NonBasicClassB nbcB)
+	{ //Outside realisation with friend modyfier
+		this->_Value += snVar._Value;
+		return *this;
+	}
+	
+	class Less
+	{	bool operator()(const int left, const int right) { //Functor - operator overload wich allows to work with class like with function
+			return left < right;
+	}};
+	Less less;
+	if (less(3,4)) std::cout << "less";
 
 //***OVERRIDING***///
+	//By default compiler use static linkage so it must know what and where te use
+	//Virtual methods are stored in special table and can be choosen during runtime
+	//This table also needs some room in memory
 
-class Animal
-{
-public:
+	class Animal
+	{
+	public:
 
 	void PrintFoodPriority() const { cout << "Unknown"; } //Example of method for override
 
@@ -223,18 +262,19 @@ public:
 
 	virtual ~Animal(){} //Virtual distructor. MUST be in any class with virtual methods, otherwise memory leak garantied
 
-protected:
+	protected:
 	int Age_;
 	int FoodPriority_;
-};
+	};
 
-class Dog : Animal
-{
-public:
+	class Dog : Animal
+	{
+	public:
 
 	void PrintFoodPriority() const { cout << "Meat"; } //If we use "Animal" declaration(pointer/link) we will see "Unknown"
 
-	void PrintName() const { cout << "Dog"; } //If we use "Animal" declaration(pointer/link) we will see "Dog"
+	void PrintName() const override { cout << "Dog"; } //If we use "Animal" declaration(pointer/link) we will see "Dog"
+	//"override" isnt neccessary, but recomended because compiler will check names matching
 
 	int GetAnimalAge() const 
 	{
@@ -243,9 +283,21 @@ public:
 
 	~Dog() { delete HairColor_; } //Dog destructor will be called first, than animal destructor
 
-private:
+	private:
 	char* HairColor_; //Additional field
-};
+	};
 
-//noexcept //
-//forward declaration//
+	class Terriere : Dog
+	{
+		void PrintName() const override { cout << "Terriere"; }
+	};
+
+	Dog dog; dog.PrintName(); //"Dog"
+	
+	Terriere terriere; terriere.PrintName(); //"Terriere"
+	
+	Dog* someOne = new Terriere();
+	someOne->PrintName(); //Still "Terriere" with parrent pointer
+	
+	const Dog& someOneNew = Terriere();
+	someOneNew->PrintName(); //Still "Terriere" with parrent reference
