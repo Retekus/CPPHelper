@@ -1,47 +1,50 @@
 // CPP HELPER BY RETEKUS //
 
-#include <iostream>
-#include "path\CPPHelper.h"
+	#include <iostream>
+	#include "path\CPPHelper.h"
 
-using namespace std; //Use namespace std to exclude std:: syntax
+	using namespace std; //Use namespace std to exclude std:: syntax
 
 //***CLASSES***//
 
-//Struct - structure with it's own values and methods - member functions
-//Class - structure with specific access preferences (everything private)
-//Object - instance of a class/struct
- 
- //Commonly classes are declared in header(.h .hpp ...) files
- //and defined in .cpp files
- //This separation allows to recompile .cpp files without recompiling the whole project
- //But if declaration inside header needs to be changed, all files with this header
- //included must be recompiled
+	//Struct - structure with it's own values and methods - member functions
+	//Class - structure with specific access preferences (everything private)
+	//Object - instance of a class/struct
+	 
+	 //Commonly classes are declared in header(.h .hpp ...) files
+	 //and defined in .cpp files
+	 //This separation allows to recompile .cpp files without recompiling the whole project
+	 //But if declaration inside header needs to be changed, all files with this header
+	 //included must be recompiled
  
 //***STRUCT***//
 
 struct StructName 
 {
-	//***FIELDS***//
-	//Field is just a name for structs variable
+//***FIELDS***//
+	//Field is a structure variable
 
 	int _Value; //Usually looks like this: _FieldName or FieldName_
 	int* _Data;
 	mutable int _MutableVal;
 	int _Val = 10; //Since C++11 its possible to init field right after declaration
 	
-	//***METHODS***//
-	//Methods - functions inside structs
+//***METHOD***//
+	//Method - function inside struct (member function)
+	//The main difference is that method gets pointer to an instance of an object
+	//Key word "this" is a pointer to exact instance of a class
+	//Also methods can have default parameters, so some parameters can be sckiped during method call
 
 	int GetValue() { return _Value; }
 	
 	int GetValueX2(); //Method declaration (example of outside realisation)
 	
-	bool ConstMeth() const {_MutableVal = 0; return _MutableVal == 0;} //If method const, compiler will check that fields are not changing
+	bool ConstMeth() const {_MutableVal = 0; return _MutableVal == 0;} //If method const, compiler will check that fields are stable
 	//Mutable key word makes fields changable inside constant methods
 
-	void SetValue(const int& InputValue) { this->_Value = InputValue; }
+	void SetValue(const int& InputValue = 0) { this->_Value = InputValue; } //InputValue have default 0 value
 	
-	//***CONSTRUCTOR***//
+//***CONSTRUCTOR***//
 	//Constructor - method called when struct instance being created to intialize object
 	//Constructor must have same name as struct/class
 	
@@ -74,7 +77,7 @@ struct StructName
 	explicit StructName(int InputValue = 0, int* InputData = nullptr) : _Value(InputValue), _Data(InputData) {}
 	//Multi functional constructor, can take 0, 1 or 2 parameters and work as default
 	
-	//***COPY CONSTRUCTOR***//
+//***COPY CONSTRUCTOR***//
 
 	StructName(StructName const& Instance) //Constructor with struct/class parameter
 	{
@@ -83,9 +86,7 @@ struct StructName
 			_Data[i] = Instance._Data[i];
 	}
 
-	//***ASSIGN CONSTRUCTOR***//
-
-	//Key word "this" is a pointer to exact instance
+//***ASSIGN CONSTRUCTOR***//
 
 	StructName& operator=(StructName const& Instance) //More about "operator" in operator overloading section
 	{
@@ -97,7 +98,7 @@ struct StructName
 		return *this;
 	}
 
-	//***DESTRUCTOR***//
+//***DESTRUCTOR***//
 	//Destructor - function called when struct instance deleted
 
 	~StructName()
@@ -107,17 +108,17 @@ struct StructName
 	
 }; //ATTENTION struct/class must have semicolon after figure brackets
 
-int StructName::GetValueX2() { return this->_Value * 2} //Method defenition (example of outside realisation)
+	int StructName::GetValueX2() { return this->_Value * 2} //Method defenition (example of outside realisation)
 
-//ATTENTION object definition can be understood as function declaration by compiler:
-StructName Struct1; //Variable definition
-StructName Struct2(); //Function declaration
-//Same possible with type changers looks like variables
+	//ATTENTION object definition can be understood as function declaration by compiler:
+	StructName Struct1; //Variable definition
+	StructName Struct2(); //Function declaration
+	//Same possible with type changers looks like variables
 
-//Instances destructor works backward
-{	StructName Struct1;
-	StructName Struct2;
-} //Struct2 deleted than Struct1
+	//Instances destructor works backward
+	{	StructName Struct1;
+		StructName Struct2;
+	} //Struct2 deleted than Struct1
 
 //***CLASS***//
 
@@ -134,29 +135,36 @@ public: //Access modifier, which allows any outside code use things under it
 	}
 
 	int GetValue() const { return _Value; }
+	
+	friend void FriendFunction(BasicClass& classInstance); //Friend function declaration
+	//Friend finction have access to private and protected fields of a class
+	//But are not in scope of a class and not invoked furing construction
 
 protected: //Access modifier, which allows use things under it only for child classes
 	int _Value;
 	int* _Data;
 
 private: //Access modifier, which allows use things under it only for this class
-	//Best place for class fields, in terms of incapsulation (Keeping class invariantable)
+	//Best place for class fields, in terms of incapsulation (Keeping class invariant)
 
-	int ErrorCode = 404;
+	int _ErrorCode = 404;
 };
+
+	void FriendFunction(BasicClass& classInstance) {classInstance._ErrorCode = 0;} //Friend function definition looks like default function
+	//Friend function still can be overloaded and used with other types and dont care about class life time 
 
 //***INHARITANCE***//
 
 class BasicClassWithMoreFunctional : public BasicClass //New class inharited from BasicClass
-//New class have same fields with same private modifier
-//Public inharitance is common used and matches standart OOP inharitance rules
-//Multiple inharitance not recomended, high risc of undifined behavior
+	//New class have same fields with same private modifier
+	//Public inharitance is common used and matches standart OOP inharitance rules
+	//Multiple inharitance not recomended, high risc of undifined behavior
 {
 private:
 
-	//***AGGREGATING***//
-//Using class as field of another class
-//Sometimes inharitance used when aggregating is enough
+//***AGGREGATING***//
+	//Using class as field of another class
+	//Sometimes inharitance used when aggregating is enough
 
 	StructName NewField_; 
 };
@@ -184,6 +192,18 @@ class NonBasicClassB : public BasicClassWithMoreFunctional
 		_Value += Num;
 		return *this;
 	}
+	
+	friend NonBasicClassB operator+(const StructName snVar, const NonBasicClassB nbcB)
+	{
+		this->_Value += snVar._Value;
+		return *this;
+	}
+	
+	bool operator==(NonBasicClassB const& other) const //ref used to avoid copying
+	{
+		if (other._Value == this->_Value) return true;
+		return false;
+	}
 public:
 };
 
@@ -193,7 +213,7 @@ class Animal
 {
 public:
 
-	void PrintFoodPriority() const { cout << "Unknown"; } //Just method for override
+	void PrintFoodPriority() const { cout << "Unknown"; } //Example of method for override
 
 	virtual void PrintName() const { cout << "Unknown"; } //Virtual method. Const means that fields stay constant
 	//Virtual means that if we call class child object using parent type declaration(pointer/link), method still be used from child class 

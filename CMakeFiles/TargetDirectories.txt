@@ -1,5 +1,0 @@
-D:/Files/VS/CPPHelper/CMakeFiles/CPPHelper.dir
-D:/Files/VS/CPPHelper/CMakeFiles/ArduinoIDE.dir
-D:/Files/VS/CPPHelper/CMakeFiles/Classes.dir
-D:/Files/VS/CPPHelper/CMakeFiles/ALL_BUILD.dir
-D:/Files/VS/CPPHelper/CMakeFiles/ZERO_CHECK.dir

@@ -1,5 +1,0 @@
-cmake_minimum_required(VERSION 3.2)
-project(CPPHelper)
-add_executable(CPPHelper CPPHelper/CPPHelper.cpp CPPHelper/CPPHelper.h)
-add_library(ArduinoIDE CPPHelper/ArduinoIDE.cpp)
-add_library(Classes CPPHelper/Classes.cpp)

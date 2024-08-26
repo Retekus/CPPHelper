@@ -2,112 +2,132 @@
 
 //***BASIC DATA TYPES***//
 
-char Character;
+	char Character;
 
-int Integer;
+	int Integer;
 
-float Float; //floating poit, 7 symbols after dot
-double Double; //float with 2x precision, 15 symbols after dot
+	float Float; //floating poit, 7 symbols after dot
+	double Double; //float with 2x precision, 15 symbols after dot
 
-bool Boolean;
+	bool Boolean;
 
-size_t Size; //Usefull data type, have size of machine word, depending on system architecture
+	size_t Size; //Usefull data type, have size of machine word, depending on system architecture
 
 //***OPERATORS***//
 
-//Arifmetical: +  -  ++(inc)  --(dec)  *  /  %  +=  -=  *=  /=  %=
+	//Arifmetical: +  -  ++(inc)  --(dec)  *  /  %  +=  -=  *=  /=  %=
 
-//Bite: ~(not)  &(and)  |(or)  ^(xor)  &=  |=  ^=  <<(slide left)  >>(slide right)
+	//Bite: ~(not)  &(and)  |(or)  ^(xor)  &=  |=  ^=  <<(slide left)  >>(slide right)
 
-//Logic: !(not)  &&(and)  ||(or)  ==(equal)  <  >  <=  >=
+	//Logic: !(not)  &&(and)  ||(or)  ==(equal)  <  >  <=  >=
 
-//Special: =(assert)  *(dereferencing)  &(get pointer)  ->((*Obj).Method)  ->*()  ,  .  ::
+	//Special: =(assert)  *(dereferencing)  &(get pointer)  ->((*Obj).Method)  ->*()  ,  .  ::
 
-//Special: [] () (type) new new[] delete delete[]
+	//Special: [] () (type) new new[] delete delete[]
 
-//Type changer: (newType)Var  newType(Var)  static_cast<newType>(Var)
+	//Type changer: (newType)Var  newType(Var)  
 
 //***TYPE MODIFIERS***//
 
-int const PI = 3.14; //Make Pi non changable
+	int const PI = 3.14; //Make Pi non changable
 
-short ShInt; //short int
-long LongInt; //long == long int(more data)
-unsigned InsignedInt; //unsigned == unsigned int (only positive values)
+	short ShInt; //short int
+	long LongInt; //long == long int(more data)
+	unsigned InsignedInt; //unsigned == unsigned int (only positive values)
 
-auto Val = 3; //type changes automatically
+	auto Val = 3; //type changes automatically
 
-//Short/long variables size depends on OS
+	//Short/long variables size depends on OS
 
 //***MACROS***//
 
-//Macros are special commands for preprocessor
-//Preprocessor scans code before compiling and does macros commands
-//Macros can be used as functions, but preprocessor works with them like with text
+	//Macros are special commands for preprocessor
+	//Preprocessor scans code before compiling and does macros commands
+	//Macros can be used as functions, but preprocessor works with them like with text
 
-#include //include macro, used for adding parts of code. Usually its headers or libraris
+	#include //include macro, used for adding parts of code. Usually its headers or libraris
 
-//Some standart(stl) libs:
-#include <iostream> //Input Output Stream (C++ style console i/o system)
-#include <iomanip> //Input Output Manipulations (setw(val), ...)
-#include <vector> //standart dynamic array library
-#include <cstdlib> //classic C lib
-#include <cstdint> //fixed size integers (int_64t, uint64_t, ...) u - unsigned
-#include <string> //C++ string lib
-#include <set> //SET(of data) library
-#include <stddef> //definitions (like NULL)
-#include <algorithm> //usefull stl algorithms (sort...)
-#include <cmath> //mathematical functions (cos(), floor(), ...)
-#include <functional> //
+	//Some standart(stl) libs:
+	#include <iostream> //Input Output Stream (C++ style console i/o system)
+	#include <iomanip> //Input Output Manipulations (setw(val), ...)
+	#include <vector> //standart dynamic array library
+	#include <cstdlib> //classic C lib
+	#include <cstdint> //fixed size integers (int_64t, uint64_t, ...) u - unsigned
+	#include <string> //C++ string lib
+	#include <set> //SET(of data) library
+	#include <stddef> //definitions (like NULL)
+	#include <algorithm> //usefull stl algorithms (sort...)
+	#include <cmath> //mathematical functions (cos(), floor(), ...)
+	#include <functional> //
 
-#include "path/CPPHelper.h" //add ur own header(.h .hpp ...) files
-//Also .cpp files can be included, but its is a bad style
+	#include "path/CPPHelper.h" //add ur own header(.h .hpp ...) files
+	//Also .cpp files can be included, but its is a bad style
 
-//"" and <> just shows place for preprocessor where file could be found
+	//"" and <> just shows place for preprocessor where file could be found
 
-#define PREPR_VALUE //preprocessor definition
+	#define PREPR_VALUE //preprocessor definition
 
-#ifdef PREPR_VALUE #endif //if PREPR_VALUE defined do code till endif
-#ifndef PREPR_VALUE #endif //if PREPR_VALUE undefined do code till endif
+	#ifdef PREPR_VALUE #endif //if PREPR_VALUE defined do code till endif
+	#ifndef PREPR_VALUE #endif //if PREPR_VALUE undefined do code till endif
 
-#undef PREPR_VALUE //preprocessor undefinition
+	#undef PREPR_VALUE //preprocessor undefinition
 
-#define MAX(a, b) a >= b ? a : b //example of macro function. 
-//Pasted just like a text, so behavior can be unpredictable
+	#define MAX(a, b) a >= b ? a : b //example of macro function. 
+	//Pasted just like a text, so behavior can be unpredictable
 
-#pragma someCommand //Compiler commands. Avaible comands depends on compiler 
+	#pragma someCommand //Compiler commands. Avaible comands depends on compiler 
+
+//***SCOPE/LIFE TIME***//
+	//Everything in C++ have its own scope and life time
+	//Scope - visibility for other members
+	//Life time - a period of time when something have its place in memory
+	{ //Figure braces are the common way to limit somethings scope and life time
+		int a;
+		{
+			int b = a; //"a" is avaible inside lover scope level
+		} //Everything inside life time end, "b" is deleted from memory
+		b = a; //Error, b is undeclared
+	}
 
 //***NAMESPACE***//
-//Namespace is a list of some functions, methods, variables ...
+	//Namespace is a list of some functions, methods, variables...
 
-const float gEarth = 10;
-namespace preciseValue	{ const float gEarth = 9.81; const float copperRes = 0.017; }
-namespace uselessFunc { void Nothing(){return;}}
-namespace insertedA { namespace insertedB {InVal = 0;}}
+	const float gEarth = 10;
+	
+	namespace preciseValue {
+	const float gEarth = 9.81; 
+	const float copperRes = 0.017; }
+	
+	namespace uselessFunc {
+		void Nothing(){return;}}
+		
+	namespace insertedA {
+		namespace insertedB {InVal = 0;}}
 
-gEarth == 10;
-preciseValue::gEarth == 9.81;
+	gEarth == 10;
+	preciseValue::gEarth == 9.81;
 
-{
-	using namespace namespaceName; //key word using to use namespace everywhere in visible area
-	using namespace uselessFunc::Nothing; //only 1 function inserted from namespace
-	using namespace insertedA::insertedB; //multiple namespaces
-	gEarth == ???; //Undefined behavior
-	copperResistance == 0.017;
-}
-copperRes == undefined;
+	{
+		using namespace namespaceName; //key word using to use namespace everywhere in visible area
+		using namespace uselessFunc::Nothing; //only 1 function inserted from namespace
+		using namespace insertedA::insertedB; //multiple namespaces
+		gEarth == ???; //Undefined behavior
+		copperResistance == 0.017;
+	}
+	copperRes == undefined;
 
 //***FUNCTIONS***//
-//Function - piece of code which does something and can be called anywhere, multiple times
-// /*Function return type*/ /*Function name*/ (/*Function parameters*/) {/*Function logic*/;}
+	//Function - piece of code which does something and can be called anywhere, multiple times
+	// /*Function return type*/ /*Function name*/ (/*Function parameters*/) {/*Function logic*/;}
 
-	void Foo() {}; //Function declaration.
-//Void functions return nothing
+	void Foo(); //Function declaration.
+	//Void functions return nothing
+	void Foo() { /*realisation*/ return; } //Function definition
 
-int Bar(int value)
-{
-	return value; //Function returns value
-}
+	int Bar(int value)
+	{
+		return value; //Function returns value
+	}
 
 //***MAIN FUNCTION***//
 
@@ -310,7 +330,7 @@ int ReturnHalf(int const Value) { return Value / 2; }
 double ReturnHalf(double const Value) { return Value / 2; }
 //Return type depends on input type
 
-//***CONSTANTS***//
+//***CONSTANT***//
 //Key word "const" works with value on the left
 
 int const * ptr = &Val; //pointer to const value
@@ -318,3 +338,32 @@ int const * ptr = &Val; //pointer to const value
 
 int * const ptr = &Val; //constant pointer to changable value
 ptr = nullptr; //Error
+
+int const * const ptr = &Val; //constant pointer to constant value
+
+//Constant references
+int& const Ref = Val; //Error. References are already constant
+int const & Ref = Val; //Reference to constant value
+
+void Func(int const & Val){return;} //Ref to const helps avoid copying
+
+StructName const * Struct = StructName(); //Define object
+Struct->NonConstMethod(); //Error. Non constant methods are unavaible for constant objects
+
+//***CAST***//
+//Cast is something like type changer
+
+newType NewTypeVar = static_cast<newType>(OldTypeVar); //Compiler checks for cast ability
+
+void Func(const int* ptr)
+{
+    *const_cast<int*>(ptr) = 0; //Const cast allows to disable constant and change value
+}
+
+newType* NewTypeVar = dynamic_cast<newType*>(OldTypeVar); //Same as static, but check happens during runtime (RTTI must be on)
+//If something wrong returns nullptr
+
+newType* NewTypeVar = reinterpret_cast<newType*>(OldTypeVar); //Cast without any checks (NOT RECOMENDED)
+
+//C-cast
+int val = (int)DoubleVal; //C style cast, in C++ works like static cast or reinterpret (NOT RECOMENDED)
