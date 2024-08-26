@@ -321,49 +321,49 @@ int main() //Main function - function where the program begins, if program done 
 
 //***FUNCTIONS OVERLOADING***//
 
-void PrintValue(int const Value) { std::cout << "Value is int: " << Value; }
-void PrintValue(char const Value) { std::cout << "Value is char: " << Value; }
-void PrintValue(bool const Value) { std::cout << "Value is bool: " << Value ? "true" : "false"; }
-//When function will be called, message will be printed depending on input parameter type
+	void PrintValue(int const Value) { std::cout << "Value is int: " << Value; }
+	void PrintValue(char const Value) { std::cout << "Value is char: " << Value; }
+	void PrintValue(bool const Value) { std::cout << "Value is bool: " << Value ? "true" : "false"; }
+	//When function will be called, message will be printed depending on input parameter type
 
-int ReturnHalf(int const Value) { return Value / 2; }
-double ReturnHalf(double const Value) { return Value / 2; }
-//Return type depends on input type
+	int ReturnHalf(int const Value) { return Value / 2; }
+	double ReturnHalf(double const Value) { return Value / 2; }
+	//Return type depends on input type
 
 //***CONSTANT***//
-//Key word "const" works with value on the left
+	//Key word "const" works with value on the left
 
-int const * ptr = &Val; //pointer to const value
-*ptr = 0; //Error
+	int const * ptr = &Val; //pointer to const value
+	*ptr = 0; //Error
 
-int * const ptr = &Val; //constant pointer to changable value
-ptr = nullptr; //Error
+	int * const ptr = &Val; //constant pointer to changable value
+	ptr = nullptr; //Error
 
-int const * const ptr = &Val; //constant pointer to constant value
+	int const * const ptr = &Val; //constant pointer to constant value
 
-//Constant references
-int& const Ref = Val; //Error. References are already constant
-int const & Ref = Val; //Reference to constant value
+	//Constant references
+	int& const Ref = Val; //Error. References are already constant
+	int const & Ref = Val; //Reference to constant value
 
-void Func(int const & Val){return;} //Ref to const helps avoid copying
+	void Func(int const & Val){return;} //Ref to const helps avoid copying
 
-StructName const * Struct = StructName(); //Define object
-Struct->NonConstMethod(); //Error. Non constant methods are unavaible for constant objects
+	StructName const * Struct = StructName(); //Define object
+	Struct->NonConstMethod(); //Error. Non constant methods are unavaible for constant objects
 
 //***CAST***//
-//Cast is something like type changer
+	//Cast is way to change types
 
-newType NewTypeVar = static_cast<newType>(OldTypeVar); //Compiler checks for cast ability
+	newType NewTypeVar = static_cast<newType>(OldTypeVar); //Compiler checks for cast ability
 
-void Func(const int* ptr)
-{
-    *const_cast<int*>(ptr) = 0; //Const cast allows to disable constant and change value
-}
+	void Func(const int* ptr)
+	{
+		*const_cast<int*>(ptr) = 0; //Const cast allows to disable constant and change value
+	}
 
-newType* NewTypeVar = dynamic_cast<newType*>(OldTypeVar); //Same as static, but check happens during runtime (RTTI must be on)
-//If something wrong returns nullptr
+	newType* NewTypeVar = dynamic_cast<newType*>(OldTypeVar); //Same as static, but check happens during runtime (RTTI must be on)
+	//If something wrong returns nullptr
 
-newType* NewTypeVar = reinterpret_cast<newType*>(OldTypeVar); //Cast without any checks (NOT RECOMENDED)
+	newType* NewTypeVar = reinterpret_cast<newType*>(OldTypeVar); //Cast without any checks (NOT RECOMENDED)
 
-//C-cast
-int val = (int)DoubleVal; //C style cast, in C++ works like static cast or reinterpret (NOT RECOMENDED)
+	//C-cast
+	int val = (int)DoubleVal; //C style cast, in C++ works like static cast or reinterpret (NOT RECOMENDED)
