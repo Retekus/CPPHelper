@@ -4,7 +4,8 @@
 
 	char Character;
 
-	int Integer;
+	int Integer = 10; //Values in C++ can be rvalue or lvalue. Lvalues have place in memory
+	//Integer is lvalue, 10 is rvalue
 
 	float Float; //floating poit, 7 symbols after dot
 	double Double; //float with 2x precision, 15 symbols after dot
@@ -59,6 +60,7 @@
 	#include <algorithm> //usefull stl algorithms (sort...)
 	#include <cmath> //mathematical functions (cos(), floor(), ...)
 	#include <functional> //
+	#include <regex> //Regular expressions
 
 	#include "path/CPPHelper.h" //add ur own header(.h .hpp ...) files
 	//Also .cpp files can be included, but its is a bad style
@@ -131,8 +133,8 @@
 
 //***MAIN FUNCTION***//
 
-int main() //Main function - function where the program begins, if program done returns 0
-{
+	int main() //Main function - function where the program begins, if program done returns 0
+	{
 //***STANDART C++ STYLE CONSOLE IO***//
 
     std::cin >> Character >> Integer;
@@ -154,8 +156,8 @@ int main() //Main function - function where the program begins, if program done 
 
     default: /*defauld instructions*/;
     }
-	
-//It is recomended to use commonly true conditions in brunches for better pefomance (brunch missprediction)
+		
+	//It is recomended to use commonly true conditions in brunches for better pefomance (brunch missprediction)
 
 //***LOOPS***//
 
@@ -175,9 +177,9 @@ int main() //Main function - function where the program begins, if program done 
 
 //***POINTERS***//
 
-//Pointers are representing adress in memory. Every type have its own fixed size but pointers are usually
-//have fixed size for every type
-//On 64-bit OS usually pointer is 8 bytes
+	//Pointers are representing adress in memory. Every type have its own fixed size but pointers are usually
+	//have fixed size for every type
+	//On 64-bit OS usually pointer is 8 bytes
 
     int* Pointer = 0; //create pointer to memory cell with int variable inside (0 == nowhere(C style))
 	
@@ -212,7 +214,7 @@ int main() //Main function - function where the program begins, if program done 
 	
 	
 //***FUNCTION POINTER***//
-//Function poiter is a powerfull ability, used in patterns like: callback, conveyor
+	//Function poiter is a powerfull ability, used in patterns like: callback, conveyor
 	
 	void Func(int x) {return;}
 
@@ -223,14 +225,14 @@ int main() //Main function - function where the program begins, if program done 
 	using FooPtr = void(*)(int); //C++11 typedef althernative
 	
 //***LAMBDA FUNCTION***//
-//Lambda function is function with short declaration, wich can use outside variables
-//Syntax: [take list](parameters){body}
-//[] - without outside take
-//[=] - take all value(copy)
-//[&] - take all reference
-//[x, y] - take x y value(copy)
-//[x, &y] - take x value and y ref
-//[x, &y], [=, &y], ...
+	//Lambda function is function with short declaration, wich can use outside variables
+	//Syntax: [take list](parameters){body}
+	//[] - without outside take
+	//[=] - take all value(copy)
+	//[&] - take all reference
+	//[x, y] - take x y value(copy)
+	//[x, &y] - take x value and y ref
+	//[x, &y], [=, &y], ...
 
 	auto LFunc = [](int Val){ return Val;};
 	
@@ -242,6 +244,12 @@ int main() //Main function - function where the program begins, if program done 
 
 	int Val = 0;
 	int& ValRef = Val; //create reference wich can be used as variable itself
+	//Defaul reference can work with only lvalues (lvalue reference)
+	
+	const int& CValRef = 0; //But const ref can also work with rvalues
+	
+	int&& ValRefR = 10; //Rvalue reference works with rvalues
+	//Rvalue references are used in move semantics
 	
 	void Fun(int& Val) {Val = 0; return;} //work with local val as it is external
 	
@@ -317,7 +325,7 @@ int main() //Main function - function where the program begins, if program done 
     for (size_t i = 1; i < rows; i++)
         DynArr2DEff[i] = DynArr2DEff[i - 1] + cols;
 
-} //end main
+	} //end main
 
 //***FUNCTIONS OVERLOADING***//
 

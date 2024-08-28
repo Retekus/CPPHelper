@@ -84,7 +84,7 @@
 		_Data = new int[_Value]; //Create a new array and fill it instea of having 2 objects with pointers to the same array
 		for (size_t i = 0; i < _Value; i++)
 			_Data[i] = Instance._Data[i];
-	}
+	} //Usually compiler trying to avoid using copy constructor (copy elision)
 
 //***ASSIGN CONSTRUCTOR***//
 
@@ -203,6 +203,20 @@
 	//When method called, it will work different depending on input value type
 
 	};
+	
+//***CLASS INCLUDE CLASS***//
+	//C++ allows to add classes into classes
+	class Server
+	{
+		class HostConfigurator
+		{
+			void ipConfig() {std::cout << _adress;} //Inserted class have access to outer class private fields
+		};
+		private:
+		int _adress;
+	};
+	Server::HostConfigurator IPconf();
+	IPconf.ipConfig();
 
 //***OPERATOR OVERLOADING***///
 
@@ -242,6 +256,20 @@
 	}};
 	Less less;
 	if (less(3,4)) std::cout << "less";
+
+	//Sometimes it is neccessary to disallow copying of some specific objects, like large data bases
+	struct UniqStructure
+	{
+		UniqStructure(UniqStructure const& a) = delete; //Since C++11 it is possible to do it by "delete" keyword
+		private:
+		UniqStructure& operator=(UniqStructure const& a); //Private constructors and operators are unavaible
+	}
+	
+		struct NonUniqStructure
+	{
+		NonUniqStructure(NonUniqStructure const& a) = default; //Since C++11 it is possible to say compiler force make default copy constructor
+		NonUniqStructure& operator=(NonUniqStructure const& a) = default;
+	}
 
 //***OVERRIDING***///
 	//By default compiler use static linkage so it must know what and where te use
@@ -301,3 +329,19 @@
 	
 	const Dog& someOneNew = Terriere();
 	someOneNew->PrintName(); //Still "Terriere" with parrent reference
+	
+//***ADL***///
+	//Argument dependent name lookup
+	//Pattern wich says compiler to use functions/operators from the same namespase where object is defined
+	//but only if there is no this functions/operators in current namespace
+	namespace NS
+	{
+		struct A { ... };
+		std::ostream& operator<<(std::ostream& out, const &A val) { /*new behaviour*/ }
+		void FuncA(const A& val) {...}
+	}
+	
+	NS::A a;
+	
+	std::cout << a; //new behaviour
+	FuncA(a); //Automaticly used function from NS
