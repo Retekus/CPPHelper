@@ -44,9 +44,10 @@
 
 	//Macros are special commands for preprocessor
 	//Preprocessor scans code before compiling and does macros commands
-	//Macros can be used as functions, but preprocessor works with them like with text
+	//Macros can be used as functions
+	//Preprocessor works with them like with text
 
-	#include //include macro, used for adding parts of code. Usually its headers or libraris
+	#include //include macro, used for adding parts of code. Usually its headers or libs
 
 	//Some standart(stl) libs:
 	#include <iostream> //Input Output Stream (C++ style console i/o system)
@@ -63,7 +64,7 @@
 	#include <regex> //Regular expressions
 
 	#include "path/CPPHelper.h" //add ur own header(.h .hpp ...) files
-	//Also .cpp files can be included, but its is a bad style
+	//Also .cpp files can be included, but its not recomended
 
 	//"" and <> just shows place for preprocessor where file could be found
 
@@ -152,12 +153,13 @@
     switch(Boolean /*variable equal to case*/)
     {
     case true: /*do smth*/;
+	
     case false: /*do smth else*/;
 
     default: /*defauld instructions*/;
     }
 		
-	//It is recomended to use commonly true conditions in brunches for better pefomance (brunch missprediction)
+	//It is recomended to use commonly true conditions in brunches for better pefomance (brunch prediction)
 
 //***LOOPS***//
 
@@ -189,10 +191,14 @@
 	
 	void* VoidPtr = 0x1000; //pointer of unknown type
 	
-	char* CharPtr = (char*) 0x1000; //link 0x1000 to char adress
+	char* CharPtr = (char*) 0x1000; //link mem cell "0x1000" to CharPtr known as char adress
 	
-	//Larger aress cells converts different, depends on hardwear architecture
-	//For x86 - little endian (bytes are growing from end to begin). Important for crossplatform apps
+	//For large sized data pointers can work different on different machines.
+	//A CPU may read a digital word big end first or little end first.
+	//A big-endian system stores the most significant byte of a word at the smallest memory address and 
+	//the least significant byte at the largest. 
+	//A little-endian system, in contrast, stores the least-significant byte at the smallest address.
+	//0A0B on (Lil-end: 0x0001: 0B 0x0002: 0A) VS (Big-end: 0x0001: 0A 0x0002: 0B)
 
     Integer = *Pointer; //dereference - get value inside Pointer pointing adress
 	
@@ -242,11 +248,13 @@
 	
 //***REFERENCES***//
 
+
 	int Val = 0;
 	int& ValRef = Val; //create reference wich can be used as variable itself
 	//Defaul reference can work with only lvalues (lvalue reference)
 	
 	const int& CValRef = 0; //But const ref can also work with rvalues
+	//Const ref continues rvalue life time till end of scope
 	
 	int&& ValRefR = 10; //Rvalue reference works with rvalues
 	//Rvalue references are used in move semantics
@@ -359,7 +367,7 @@
 	Struct->NonConstMethod(); //Error. Non constant methods are unavaible for constant objects
 
 //***CAST***//
-	//Cast is way to change types
+	//Cast is change of types
 
 	newType NewTypeVar = static_cast<newType>(OldTypeVar); //Compiler checks for cast ability
 
@@ -374,4 +382,91 @@
 	newType* NewTypeVar = reinterpret_cast<newType*>(OldTypeVar); //Cast without any checks (NOT RECOMENDED)
 
 	//C-cast
-	int val = (int)DoubleVal; //C style cast, in C++ works like static cast or reinterpret (NOT RECOMENDED)
+	int val = (int)DoubleVal; //C style cast, in C++ works like static cast or reinterpret if static impossible (NOT RECOMENDED)
+	
+//***MOVE SEMANTICS***//
+	//Move semantic is a mechanism wich allows to use expressions multiple times without copying by moving it
+	//Moving means data moves inside proccessor's registers without calling pointers, finding data, clearing cach... 
+	//Since C++ expressions can be rvalue, lvalue, glvalue, xvalue and prvalue
+	//Glvalue - generalized lvalue
+	//Prvalue - pure rvalue
+	//Xvalue - expiring value
+	//Rvalue can be xvalue or prvalue
+	
+	//XVALUE//
+	//expiring value - close to its end
+	int&& foo(){return 3;}
+	foo(); //xvalue
+	
+	static_cast<int&&>(5); //xvalue
+	std::move(5); //same as static cast - xvalue
+	
+	//PRVALUE//
+	//Everything thats not lvalue or xvalue
+	int foo(){return 3;}
+	foo(); //prvalue
+	
+	//Scott Myers rule:
+	//If u can take adress - it is lvalue
+	//If it is ref to lvalue - it is also lvalue
+	//Everything else is rvalue
+	
+	//Perfect forvarding
+	bar(T& t);
+	bar(T&& t);
+	
+	void foo(T& x)
+	{
+		bar(x); //can cause compile problems if x - rvalue
+	}
+	void foo(T&& x)
+	{
+		bar(std::move(x)); //function redefinition, can be time consuming if more complicated realisation
+	}
+	
+	void foo(T&& x)
+	{
+		bar(std::forward<T>(x)); //std::forward keeps reference type - if x rvalue it will give bar() rvalue, if lvalue then lvalue
+	}
+	
+//***FUNCTION TEMPLATES***//	
+	//Function templates allow us to make functions with different signature
+	
+	template <class T> //"class" is just a key word, also "typename" can be used, result the same
+	void PrintLN(const T& val)
+	{
+		std::cout << val;
+	}
+	PrintLN<int>(5);
+	PrintLN(5); //compiler can automaticly pick needed template
+	
+	template <int Val> //also types can be clearly defined
+	void PrintLN()
+	{
+		std::cout << val;
+	}
+	int Num = 3; //3 is a value of runtime, template must have compile time values
+	PrintLN<Num>(); //Error, compiler must know value before compiling
+	
+	const int Num = 3;
+	PrintLN<Num>(); //Ok
+	PrintLN<3>(); //Ok
+	
+	int Func(int v) {return v;}
+	const int Num = Func(3);
+	PrintLN<Num>(); //Error
+	
+	constexpr int bar() {return 0;} //"constexpr" keyword allows compiler to calculate return value during compiling
+	
+	const int Num = bar(3);
+	PrintLN<Num>(); //Can also cause error if function cant be proccessed during compile time
+	
+	template <int* Val> //Error, templates cant work with pointers
+	
+	template <class Val, class Counter = int> //Template can have default type parameter
+	void foo(){Counter Val = Value;}
+	foo<char>(); //Counter is int by default
+	foo<char, size_t>(); //Counter now is size_t
+
+//***RVO/NRVO***//
+	

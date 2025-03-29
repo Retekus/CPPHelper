@@ -85,6 +85,7 @@
 		for (size_t i = 0; i < _Value; i++)
 			_Data[i] = Instance._Data[i];
 	} //Usually compiler trying to avoid using copy constructor (copy elision)
+	//New object just creates on call place
 
 //***ASSIGN CONSTRUCTOR***//
 
@@ -175,6 +176,13 @@
 	class BC2 : private BasicClass {}; //Private inheritance makes public and protected fields - private
 	
 	class FinalClass final {}; //Key word "final" makes class non inharitable
+	
+	BC1 bc1;
+	BasicClass& bref = bc1; //Refs can be converted from child to base class
+	BasicClass* bref = &bc1; //Same with pointers. But it doesnt work backwards
+	
+	BasicClass b;
+	b = bc1; //Base class instance can be defined by child class, but it will only get fields declared in base class (cutoff)
 	
 	class BasicClassWithMoreFunctional : public BasicClass, private StructName //New class inharited from BasicClass and StructName
 	//New class have same fields with same private modifier
@@ -345,3 +353,63 @@
 	
 	std::cout << a; //new behaviour
 	FuncA(a); //Automaticly used function from NS
+	
+//***MOVE SEMANTICS***//
+	//Move semantics in classes
+	class Buffer
+	{
+	private:
+		size_t _size;
+		int* _data;
+	public:
+		~Buffer() {delete _data;}
+		Buffer(Buffer&& moved);
+		Buffer& operator=(Buffer&& moved);
+
+	};
+	
+	//Move constructor
+	Buffer::Buffer(Buffer&& moved) : _data(moved._data), _size(moved._size)
+	{
+		moved._data = nullptr;
+		moved._size = 0;
+	}
+	Buffer b1;
+	Buffer b2 = std::move(b1); //b1 already moved but still alive, so it's data should be nulled
+	//otherwise b2 data can be deleted while b1 destructor will be called
+	
+	Buffer::Buffer& operator=(Buffer&& moved)
+	{
+		if (this = &moved) return *this; //check of moving itself
+		delete[] _data; //delete old data
+		...
+		return *this;
+	}
+	Buffer b1;
+	Buffer b2; 
+	b2 = std::move(b1);
+	
+//***CLASS TEMPLATES***//
+	//Class templates allow create classes wich can have different field types
+	
+	template<class T> //T is a parameter wich will be pushed into class
+	class Matrix
+	{
+		T* _data;
+	};
+	Matrix<double> matrix;
+	Matrix<int> matrix;
+	
+	template<> //Specialized template: if T is bool then this exact realisation will be used
+	class Matrix<bool> 
+	{
+		void* _data;
+		...
+	}
+	
+	template<class T, size_t size>
+	class Array
+	{
+		T* _data[size];
+	};
+	Array<int, 5> arr;
